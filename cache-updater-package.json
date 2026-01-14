@@ -1,0 +1,13 @@
+{
+    "name": "cache-updater",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "update-cache": "node update-cache.mjs"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.39.0",
+        "axios": "^1.6.0",
+        "cheerio": "^1.0.0-rc.12"
+    }
+}

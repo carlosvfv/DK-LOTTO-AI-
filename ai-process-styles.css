@@ -1,0 +1,97 @@
+/* AI Process Info Section */
+.ai-process-info {
+    background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(75, 0, 130, 0.05));
+    border: 1px solid rgba(138, 43, 226, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    animation: fadeInUp 0.5s ease;
+}
+
+.process-title {
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--primary-light);
+    background: linear-gradient(to right, #8b5cf6, #6366f1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.process-step {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.process-step:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.process-step h3 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    color: var(--primary-light);
+}
+
+.process-step p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+}
+
+.process-techniques {
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.techniques-title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: var(--accent-gold);
+}
+
+.techniques-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.techniques-list li {
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 2px solid var(--accent-gold);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+    .process-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .techniques-list {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-process-info {
+        padding: 15px;
+    }
+}

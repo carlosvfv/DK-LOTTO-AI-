@@ -1,0 +1,44 @@
+name: Deploy Edge Functions
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'supabase/functions/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Supabase CLI
+        run: |
+          npm install -g supabase
+
+      - name: Deploy Edge Functions
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+        run: |
+          supabase link --project-ref $SUPABASE_PROJECT_ID
+          supabase functions deploy generate-premium-v2
+          supabase functions deploy check-license
+          supabase functions deploy stripe-webhook
+
+      - name: Deploy Success
+        run: |
+          echo "✅ Edge Functions deployed successfully!"
+          echo "URLs:"
+          echo "https://$SUPABASE_PROJECT_ID.supabase.co/functions/v1/generate-premium-v2"
+          echo "https://$SUPABASE_PROJECT_ID.supabase.co/functions/v1/check-license"
+          echo "https://$SUPABASE_PROJECT_ID.supabase.co/functions/v1/stripe-webhook"

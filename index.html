@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Lotería Danesa - Basado en Estadísticas Reales</title>
+    <meta name="description"
+        content="Generador inteligente de números para Lotto, Vikinglotto y Eurojackpot basado en análisis estadístico real">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="multilang-styles.css">
+    <link rel="stylesheet" href="fade-pattern.css">
+    <link rel="stylesheet" href="ai-process-styles.css">
+    <link rel="stylesheet" href="auth-styles.css">
+</head>
+
+<body>
+    <!-- Language Selector - Fixed position, independent -->
+    <div class="language-selector">
+        <button class="lang-btn active" data-lang="da" title="Dansk">
+            🇩🇰 DA
+        </button>
+        <button class="lang-btn" data-lang="en" title="English">
+            🇬🇧 EN
+        </button>
+    </div>
+
+    <!-- User Credits Display (Shows when logged in) -->
+    <div class="user-display" id="userDisplay" style="display: none;">
+        <span id="userName" class="user-name">Usuario</span>
+        <span class="credits-badge">💎 <span id="userCredits">0</span></span>
+        <button id="logoutBtn" class="logout-btn" title="Cerrar sesión">🚪</button>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 2C12 2 8 6 8 12C8 18 12 22 12 22" stroke="currentColor" stroke-width="2" />
+                    <path d="M12 2C12 2 16 6 16 12C16 18 12 22 12 22" stroke="currentColor" stroke-width="2" />
+                </svg>
+                <div>
+                    <h1 class="logo-title" data-i18n="appTitle">Danish Lottery Pro</h1>
+                    <p class="logo-subtitle" data-i18n="appSubtitle">Intelligent Nummergenerator</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Game Selection -->
+            <section class="game-selection">
+                <h2 class="section-title" data-i18n="selectGame">Vælg dit spil</h2>
+                <div class="game-cards">
+                    <button class="game-card active" data-game="lotto">
+                        <div class="game-card-icon">🎰</div>
+                        <h3 class="game-card-name" data-i18n="lotto">Lotto</h3>
+                        <p class="game-card-desc" data-i18n="lottoDesc">7 numre (1-36)</p>
+                        <div class="game-card-badge" data-i18n="lottoBadge">Lørdag 20:00</div>
+                    </button>
+                    <button class="game-card" data-game="vikinglotto">
+                        <div class="game-card-icon">⚔️</div>
+                        <h3 class="game-card-name" data-i18n="vikinglotto">Vikinglotto</h3>
+                        <p class="game-card-desc" data-i18n="vikinglottoDesc">6 numre (1-48) + Viking</p>
+                        <div class="game-card-badge" data-i18n="vikinglottoBadge">Onsdag 20:00</div>
+                    </button>
+                    <button class="game-card" data-game="eurojackpot">
+                        <div class="game-card-icon">⭐</div>
+                        <h3 class="game-card-name" data-i18n="eurojackpot">Eurojackpot</h3>
+                        <p class="game-card-desc" data-i18n="eurojackpotDesc">5 numre (1-50) + 2 stjerner</p>
+                        <div class="game-card-badge" data-i18n="eurojackpotBadge">Tirsdag/Fredag 20:00</div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Strategy Selection -->
+            <section class="strategy-selection">
+                <h2 class="section-title" data-i18n="selectStrategy">Genereringsstrategi</h2>
+                <div class="strategy-buttons">
+                    <button class="strategy-btn active" data-strategy="balanced">
+                        <span class="strategy-icon">⚖️</span>
+                        <span class="strategy-name" data-i18n="balanced">Balanceret</span>
+                        <span class="strategy-desc" data-i18n="balancedDesc">Mix varme/kolde</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="hot">
+                        <span class="strategy-icon">🔥</span>
+                        <span class="strategy-name" data-i18n="hotNumbers">Varme Numre</span>
+                        <span class="strategy-desc" data-i18n="hotNumbersDesc">Mest hyppige</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="cold">
+                        <span class="strategy-icon">❄️</span>
+                        <span class="strategy-name" data-i18n="coldNumbers">Kolde Numre</span>
+                        <span class="strategy-desc" data-i18n="coldNumbersDesc">Mindst hyppige</span>
+                    </button>
+                    <button class="strategy-btn" data-strategy="random">
+                        <span class="strategy-icon">🎲</span>
+                        <span class="strategy-name" data-i18n="random">Tilfældig</span>
+                        <span class="strategy-desc" data-i18n="randomDesc">100% Tilfældig</span>
+                    </button>
+                    <button class="strategy-btn premium" data-strategy="ai">
+                        <span class="strategy-icon">🤖</span>
+                        <span class="strategy-name" data-i18n="aiPremium">AI Premium</span>
+                        <span class="strategy-desc" data-i18n="aiPremiumDesc">DeepSeek AI + Analyse</span>
+                        <span class="premium-badge" data-i18n="premiumBadge">✨ PRO</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- AI Process Explanation (Visible when AI Premium is selected) -->
+            <section class="ai-process-info" id="aiProcessInfo" style="display: none;">
+                <h2 class="process-title" data-i18n="processTitle">🧠 Hvordan Vores AI Premium Fungerer</h2>
+
+                <div class="process-steps">
+                    <div class="process-step">
+                        <h3 data-i18n="processStep1Title">1️⃣ Web Scraping af Rigtige Data</h3>
+                        <p data-i18n="processStep1Desc">Vi downloader de seneste 100 trækninger fra LotteryGuru.com -
+                            INGEN simulerede data.</p>
+                    </div>
+                    <div class="process-step">
+                        <h3 data-i18n="processStep2Title">2️⃣ Avanceret Statistisk Analyse</h3>
+                        <p data-i18n="processStep2Desc">Frekvensanalyse, Chi²-test, Parkorrelationer, Gap-analyse,
+                            Entropimåling og mere.</p>
+                    </div>
+                    <div class="process-step">
+                        <h3 data-i18n="processStep3Title">3️⃣ DeepSeek AI Ræsonnement</h3>
+                        <p data-i18n="processStep3Desc">AI modtager alle statistikker og bruger "Regression til Mean"
+                            teori til at generere intelligente kombinationer.</p>
+                    </div>
+                    <div class="process-step">
+                        <h3 data-i18n="processStep4Title">4️⃣ Smart Filtrering</h3>
+                        <p data-i18n="processStep4Desc">Undgår varme par, prioriterer kolde kombinationer, balancerer
+                            lige/ulige og ranges.</p>
+                    </div>
+                </div>
+
+                <div class="process-techniques">
+                    <h3 class="techniques-title" data-i18n="processTechniquesTitle">📐 Anvendte Teknikker</h3>
+                    <ul class="techniques-list">
+                        <li data-i18n="processTechnique1">Chi-kvadrat uafhængighedstest</li>
+                        <li data-i18n="processTechnique2">Betinget sandsynlighedsanalyse</li>
+                        <li data-i18n="processTechnique3">Entropi & standardafvigelsesberegning</li>
+                        <li data-i18n="processTechnique4">Regression til middelværdi (Mean Reversion)</li>
+                        <li data-i18n="processTechnique5">Kolde/Varme nummerfiltrering</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Generate Button -->
+            <section class="generate-section">
+                <button class="generate-btn" id="generateBtn">
+                    <span class="generate-icon">✨</span>
+                    <span class="generate-text" data-i18n="generateButton">Generer Numre</span>
+                </button>
+
+                <!-- AI Loading Steps Display -->
+                <div id="aiLoadingSteps" class="ai-loading-steps" style="display: none;"></div>
+
+                <div class="generate-counter">
+                    <span class="counter-label" data-i18n="combinationsGenerated">Kombinationer genereret:</span>
+                    <span class="counter-value" id="counterValue">0</span>
+                </div>
+            </section>
+
+            <!-- Results Display -->
+            <section class="results-section" id="resultsSection">
+                <div class="results-header">
+                    <h2 class="section-title" data-i18n="yourCombination">Din Kombination</h2>
+                    <button class="share-btn" id="shareBtn" title="Compartir">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path
+                                d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 6.65685 16.3431 8 18 8Z"
+                                stroke-width="2" />
+                            <path
+                                d="M6 15C7.65685 15 9 13.6569 9 12C9 10.3431 7.65685 9 6 9C4.34315 9 3 10.3431 3 12C3 13.6569 4.34315 15 6 15Z"
+                                stroke-width="2" />
+                            <path
+                                d="M18 22C19.6569 22 21 20.6569 21 19C21 17.3431 19.6569 16 18 16C16.3431 16 15 17.3431 15 19C15 20.6569 16.3431 22 18 22Z"
+                                stroke-width="2" />
+                            <path d="M8.59 13.51L15.42 17.49M15.41 6.51L8.59 10.49" stroke-width="2" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="numbers-display" id="numbersDisplay">
+                    <!-- Numbers will be inserted here -->
+                </div>
+
+                <!-- Strategy Info with Learn More -->
+                <div class="strategy-info-section">
+                    <div class="strategy-active">
+                        <span class="strategy-label" data-i18n="currentStrategy">Aktiv Strategi</span>
+                        <span class="strategy-value" id="strategyValue">-</span>
+                    </div>
+                    <button class="learn-more-btn" id="learnMoreBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10" stroke-width="2" />
+                            <path d="M12 16v-4M12 8h.01" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                        <span data-i18n="learnMore">Lær mere</span>
+                    </button>
+                </div>
+
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Stats will be inserted here -->
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn save-btn" id="saveBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path
+                                d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H15L21 9V19C21 20.1046 20.1046 21 19 21Z"
+                                stroke-width="2" />
+                            <path d="M7 3V8H15" stroke-width="2" />
+                            <path d="M12 11V21" stroke-width="2" />
+                        </svg>
+                        <span data-i18n="saveCombination">Gem Kombination</span>
+                    </button>
+                    <button class="action-btn download-btn" id="downloadBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path
+                                d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
+                                stroke-width="2" />
+                            <path d="M7 10L12 15L17 10" stroke-width="2" />
+                            <path d="M12 15V3" stroke-width="2" />
+                        </svg>
+                        <span data-i18n="downloadPDF">Download PDF</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- AI Analysis Section (Premium Only) -->
+            <section class="ai-analysis-section" id="aiAnalysisSection" style="display: none;">
+                <h2 class="section-title">🤖 Análisis AI - DeepSeek Reasoning</h2>
+
+                <div class="ai-card">
+                    <div class="ai-header">
+                        <div class="ai-confidence">
+                            <span class="confidence-label">Nivel de Confianza:</span>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="confidenceFill"></div>
+                            </div>
+                            <span class="confidence-value" id="confidenceValue">0%</span>
+                        </div>
+                    </div>
+
+                    <div class="ai-reasoning">
+                        <h3>💡 Razonamiento IA</h3>
+                        <p id="aiReasoning">Analizando patrones estadísticos...</p>
+                    </div>
+
+                    <div class="ai-patterns">
+                        <h3>📊 Patrones Detectados</h3>
+                        <div class="patterns-list" id="patternsList">
+                            <!-- Patterns will be inserted here -->
+                        </div>
+                    </div>
+
+                    <div class="ai-recommendation">
+                        <h3>🎯 Recomendación Estratégica</h3>
+                        <p id="aiRecommendation">Preparando recomendaciones...</p>
+                    </div>
+
+                    <div class="ai-stats-detailed">
+                        <h3>📈 Análisis Estadístico Completo</h3>
+                        <div class="detailed-stats-grid" id="detailedStatsGrid">
+                            <!-- Detailed stats will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Saved Combinations -->
+            <section class="saved-section" id="savedSection">
+                <h2 class="section-title" data-i18n="savedCombinations">Gemte Kombinationer</h2>
+                <div class="saved-list" id="savedList">
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <p data-i18n="noSavedCombinations">Ingen gemte kombinationer</p>
+                        <p class="empty-hint" data-i18n="noSavedHint">Generer og gem dine yndlingskombinationer</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Info -->
+            <section class="info-section">
+                <h2 class="section-title" data-i18n="statisticalInfo">Statistisk Information</h2>
+                <div class="info-cards">
+                    <div class="info-card">
+                        <div class="info-icon hot">🔥</div>
+                        <h3 data-i18n="hotNumbersInfo">Varme Numre</h3>
+                        <p data-i18n="hotNumbersText">Baseret på reel frekvensanalyse af historiske trækninger. Disse
+                            numre er forekommet statistisk oftere.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon cold">❄️</div>
+                        <h3 data-i18n="coldNumbersInfo">Kolde Numre</h3>
+                        <p data-i18n="coldNumbersText">Numre der historisk set er forekommet sjældnere. Nogle spillere
+                            mener, de er "på vej" til at komme.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon balanced">⚖️</div>
+                        <h3 data-i18n="balancedStrategyInfo">Balanceret Strategi</h3>
+                        <p data-i18n="balancedStrategyText">Kombinerer varme og kolde numre for en afbalanceret tilgang
+                            baseret på reel statistisk fordeling.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p class="footer-text" data-i18n-html="footerWarning">
+                <strong>Advarsel:</strong> Denne generator er kun til underholdning. Lotterinumre er fuldstændig
+                tilfældige. Spil ansvarligt. +18
+            </p>
+            <p class="footer-credit" data-i18n="footerCredit">Data baseret på officiel statistik fra Danske Spil</p>
+        </footer>
+    </div>
+
+    <!-- Modal: Learn More About Calculations -->
+    <div class="modal" id="calculationsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="modalTitle">Statistiske Beregninger & Metoder</h2>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="calc-item">
+                    <h3 data-i18n="calcFrequency">📊 Frekvensanalyse</h3>
+                    <p data-i18n="calcFrequencyDesc">Absolut og relativ frekvens af hvert nummer gennem {draws}
+                        trækninger.</p>
+                </div>
+                <div class="calc-item">
+                    <h3 data-i18n="calcPairs">🔗 Parkorrelationer</h3>
+                    <p data-i18n="calcPairsDesc">Analyse af hvilke numre der oftest vises sammen.</p>
+                </div>
+                <div class="calc-item">
+                    <h3 data-i18n="calcConditional">📈 Betinget Sandsynlighed</h3>
+                    <p data-i18n="calcConditionalDesc">Overgangssandsynligheder mellem positioner.</p>
+                </div>
+                <!-- ... other items ... -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: License & Payment -->
+    <div class="modal" id="licenseModal" style="display: none;">
+        <div class="modal-content premium-modal">
+            <div class="modal-header">
+                <h2 data-i18n="premiumAccessTitle">💎 Premium AI Access</h2>
+                <button class="modal-close" id="licenseModalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="premium-benefits">
+                    <div class="benefit-item">🤖 <strong data-i18n="modalBenefitAI">DeepSeek AI</strong></div>
+                    <div class="benefit-item">📊 <strong data-i18n="modalBenefitStats">Estadística Real</strong></div>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Option 1: Single Use -->
+                    <div class="pricing-card">
+                        <div class="price-header" data-i18n="pricingTryHeader">PROBAR</div>
+                        <div class="price-amount">13 kr</div>
+                        <div class="price-desc" data-i18n="pricing1Prediction">1 Predicción</div>
+                        <a href="https://buy.stripe.com/7sYeVd6Cd2D85YNcoLejK0f" target="_blank"
+                            class="stripe-btn small" data-i18n="pricingBuyButton">
+                            Comprar
+                        </a>
+                    </div>
+
+                    <!-- Option 2: 5 Uses (Recommended) -->
+                    <div class="pricing-card recommended">
+                        <div class="popular-badge" data-i18n="pricingPopularBadge">POPULAR</div>
+                        <div class="price-header" data-i18n="pricingPack5Header">PACK 5</div>
+                        <div class="price-amount">49 kr</div>
+                        <div class="price-desc" data-i18n="pricing5Predictions">5 Predicciones</div>
+                        <div class="price-saving" data-i18n="pricingSave35">Ahorra 35%</div>
+                        <a href="https://buy.stripe.com/cNi9ATaSt3Hc4UJgF1ejK0g" target="_blank" class="stripe-btn"
+                            data-i18n="pricingBuyPackButton">
+                            Comprar Pack
+                        </a>
+                    </div>
+
+                    <!-- Option 3: Unlimited -->
+                    <div class="pricing-card">
+                        <div class="price-header" data-i18n="pricingVIPHeader">VIP TOTAL</div>
+                        <div class="price-amount">170 kr</div>
+                        <div class="price-desc" data-i18n="pricingUnlimited">∞ ILIMITADO / Mes</div>
+                        <a href="https://buy.stripe.com/28EbJ18Klb9Ebj79czejK0h" target="_blank"
+                            class="stripe-btn small" data-i18n="pricingTotalAccessButton">
+                            Acceso Total
+                        </a>
+                    </div>
+                </div>
+
+                <div class="divider"><span data-i18n="pricingAlreadyHaveKey">YA TENGO CLAVE</span></div>
+
+                <div class="key-section">
+                    <div class="input-group">
+                        <input type="text" id="licenseKeyInput" data-i18n-placeholder="pricingKeyPlaceholder"
+                            placeholder="VIP-XXXX-XXXX" autocomplete="off">
+                        <button id="activateKeyBtn" data-i18n="pricingActivateButton">Activar Clave</button>
+                    </div>
+                    <div id="keyError" class="error-msg"></div>
+                </div>
+
+                <p class="payment-note" data-i18n="pricingPaymentNote">La clave VIP llegará a tu email tras el pago.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div class="modal" id="authModal" style="display: none;">
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h2 data-i18n="authTitle">Iniciar Sesión / Registrarse</h2>
+                <button class="modal-close" id="authModalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <!-- Google Sign-In -->
+                <button id="googleSignInBtn" class="google-btn">
+                    <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" fill-rule="evenodd">
+                            <path d="M17.6 9.2l-.1-1.8H9v3.4h4.8C13.6 12 13 13 12 13.6v2.2h3a8.8 8.8 0 0 0 2.6-6.6z"
+                                fill="#4285F4" />
+                            <path d="M9 18c2.4 0 4.5-.8 6-2.2l-3-2.2a5.4 5.4 0 0 1-8-2.9H1V13a9 9 0 0 0 8 5z"
+                                fill="#34A853" />
+                            <path d="M4 10.7a5.4 5.4 0 0 1 0-3.4V5H1a9 9 0 0 0 0 8l3-2.3z" fill="#FBBC05" />
+                            <path d="M9 3.6c1.3 0 2.5.4 3.4 1.3L15 2.3A9 9 0 0 0 1 5l3 2.4a5.4 5.4 0 0 1 5-3.7z"
+                                fill="#EA4335" />
+                        </g>
+                    </svg>
+                    <span data-i18n="signInWithGoogle">Continuar con Google</span>
+                </button>
+
+                <div class="divider"><span data-i18n="orEmail">O con email</span></div>
+
+                <!-- Email/Password Form -->
+                <div id="emailAuthForm">
+                    <input type="email" id="authEmail" placeholder="email@ejemplo.com"
+                        data-i18n-placeholder="emailPlaceholder">
+                    <input type="password" id="authPassword" placeholder="••••••••"
+                        data-i18n-placeholder="passwordPlaceholder">
+                    <button id="signUpBtn" class="auth-btn primary" data-i18n="signUpButton">Registrarse</button>
+                    <button id="signInBtn" class="auth-btn secondary" data-i18n="signInButton">Iniciar Sesión</button>
+                    <div id="authError" class="error-msg"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth-logic.js"></script>
+    <script src="fade-pattern.js"></script>
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

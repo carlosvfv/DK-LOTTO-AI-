@@ -1,0 +1,5 @@
+/* Minimal CSS for fade pattern */
+#fadePattern {
+    position: fixed !important;
+    z-index: -2 !important;
+}
