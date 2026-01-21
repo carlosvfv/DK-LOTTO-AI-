@@ -571,7 +571,8 @@ async function generateAIPremiumNumbers() {
         const response = await fetch(`${API_BASE_URL}/generate-premium`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
             },
             body: JSON.stringify({
                 game: currentGame,
