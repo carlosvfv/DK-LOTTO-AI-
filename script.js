@@ -877,40 +877,27 @@ if (activateKeyBtn) {
         if (!key) return;
 
         activateKeyBtn.disabled = true;
-        activateKeyBtn.textContent = 'Verifying...';
+        activateKeyBtn.textContent = 'Activating...';
 
-        try {
-            // Check key validity with backend
-            const response = await fetch(`${API_BASE_URL}/check-license`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ licenseKey: key })
-            });
+        // Optimistic Activation (Skip Check, Validate on Generate)
+        setTimeout(() => {
+            // Save Key
+            localStorage.setItem('lottery-license-key', key);
 
-            const data = await response.json();
-
-            if (data.valid && data.active) {
-                // Success! Save Key
-                localStorage.setItem('lottery-license-key', key);
-
-                // Close modal and Trigger Generation
-                licenseModal.style.display = 'none';
-                alert(`✅ Key Activated! Credits: ${data.credits}`);
-                activateKeyBtn.textContent = 'Activate';
-                activateKeyBtn.disabled = false;
-
-                // Automatically retry generation
-                generateAIPremiumNumbers();
-            } else {
-                keyError.textContent = 'Invalid or expired key.';
-                activateKeyBtn.textContent = 'Activate';
-                activateKeyBtn.disabled = false;
-            }
-        } catch (e) {
-            keyError.textContent = 'Server connection error.';
+            // Close modal
+            licenseModal.style.display = 'none';
             activateKeyBtn.textContent = 'Activate';
             activateKeyBtn.disabled = false;
-        }
+
+            // Clear previous errors
+            if (keyError) keyError.textContent = '';
+
+            // Trigger AI Generation (This will validate the key for real)
+            generateAIPremiumNumbers();
+
+            // Show toast/alert
+            // alert('Key saved! Starting generation...');
+        }, 500);
     }
 }
 
