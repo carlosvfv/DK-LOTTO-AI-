@@ -42,7 +42,10 @@ const lotteryData = {
 // ========================
 
 // Backend API Configuration
-const API_BASE_URL = 'http://localhost:3001/api';
+// Backend API Configuration
+// DEPLOYMENT: Uncomment the line below for production
+const API_BASE_URL = 'https://dtyckxrqyyvcitmityzv.supabase.co/functions/v1';
+// const API_BASE_URL = 'http://localhost:3001/api';
 
 let currentGame = 'lotto';
 let currentStrategy = 'balanced';

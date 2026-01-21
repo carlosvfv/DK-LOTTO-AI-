@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
@@ -16,14 +18,14 @@ app.use(express.json());
 // ========================
 // SUPABASE CONFIGURATION
 // ========================
-const SUPABASE_URL = 'https://dtyckxrqyyvcitmityzv.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_ewHH1DPy7Jq8G722NqSjgQ_ufM_ZP8i';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ========================
-// API KEY CONFIGURATION (SECURE - ONLY IN BACKEND)
+// API KEY CONFIGURATION (SECURE - USING ENV)
 // ========================
-const DEEPSEEK_API_KEY = 'sk-78346dc91ddf46a49f25f191f43dd473';
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 
 // ========================
