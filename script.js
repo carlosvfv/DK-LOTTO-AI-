@@ -857,9 +857,22 @@ if (licenseModalClose) {
     });
 }
 
-// Activate Key Button
+// Activate Key Button (Click & Enter)
 if (activateKeyBtn) {
-    activateKeyBtn.addEventListener('click', async () => {
+    // Basic Click Handler
+    activateKeyBtn.addEventListener('click', handleActivation);
+
+    // Enter Key Handler
+    if (licenseKeyInput) {
+        licenseKeyInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleActivation();
+            }
+        });
+    }
+
+    async function handleActivation() {
         const key = licenseKeyInput.value.trim();
         if (!key) return;
 
@@ -898,7 +911,7 @@ if (activateKeyBtn) {
             activateKeyBtn.textContent = 'Activate';
             activateKeyBtn.disabled = false;
         }
-    });
+    }
 }
 
 // Download PDF
