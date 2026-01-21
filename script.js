@@ -668,7 +668,10 @@ async function generateAIPremiumNumbers() {
         console.error('AI Generation Error:', error);
 
         // Fallback to standard generation
-        alert(`${t('errorConnecting')}\n\n${t('errorFallback')}`);
+        // Fallback to standard generation
+        // alert(`${t('errorConnecting') || 'Connection Error'}\n\nFalling back to local generation...`);
+        console.warn('Falling back to local strategy due to AI error');
+
 
         currentStrategy = 'balanced';
         strategyButtons.forEach(btn => {
