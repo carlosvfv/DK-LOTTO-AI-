@@ -593,7 +593,13 @@ async function generateAIPremiumNumbers() {
 
             // Show Modal with Error
             licenseModal.style.display = 'flex';
-            if (keyError) keyError.textContent = errData.error || 'License error';
+
+            let displayError = errData.error || 'Licensfejl';
+            if (errData.code === 'INVALID_KEY') displayError = '❌ Ugyldig licensnøgle. Prøv igen.';
+            if (errData.code === 'NO_CREDITS') displayError = '⚠️ Ingen klip tilbage på denne licens.';
+            if (errData.code === 'INACTIVE_KEY') displayError = '⛔ Denne licens er deaktiveret.';
+
+            if (keyError) keyError.textContent = displayError;
 
             throw new Error(errData.error || 'License Invalid');
         }
