@@ -578,7 +578,7 @@ async function generateAIPremiumNumbers() {
             body: JSON.stringify({
                 game: currentGame,
                 strategy: 'ai',
-                licenseKey: licenseKey // Send the stored key
+                licenseKey: licenseKey || 'FREE-TRIAL-GIFT' // Force trial key if empty
             })
         });
 
