@@ -486,7 +486,7 @@ function generateStandardNumbers() {
 async function generateAIPremiumNumbers() {
     // 1. Check for License Key OR Free Trial
     let licenseKey = localStorage.getItem('lottery-license-key');
-    const trialUsed = localStorage.getItem('lottery-trial-used');
+    const trialUsed = localStorage.getItem('lottery-trial-used-v2');
 
     // LOGIC: IF NO KEY AND NO TRIAL USED -> GIVE FREE TRIAL
     if (!licenseKey) {
@@ -497,7 +497,7 @@ async function generateAIPremiumNumbers() {
             // Notify user
             // We can show a toast or just let them be surprised
             // But we mark it as used immediately to prevent abuse on refresh
-            localStorage.setItem('lottery-trial-used', 'true');
+            localStorage.setItem('lottery-trial-used-v2', 'true');
 
             // Optional: Alert the user they are using their free shot
             // alert("🎁 ¡Regalo de Bienvenida! Tienes 1 predicción GRATIS.");
