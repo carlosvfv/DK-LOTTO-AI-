@@ -791,17 +791,38 @@ strategyButtons.forEach(btn => {
         currentStrategy = btn.dataset.strategy;
         updateStrategyDisplay(); // Update display on change
 
-        // Show/Hide AI Process Info
+        // Show/Hide AI Process Info Modal
         const aiProcessInfo = document.getElementById('aiProcessInfo');
         if (aiProcessInfo) {
             if (currentStrategy === 'ai') {
-                aiProcessInfo.style.display = 'block';
+                aiProcessInfo.style.display = 'flex';
             } else {
                 aiProcessInfo.style.display = 'none';
             }
         }
     });
 });
+
+// Close AI Process Modal
+const aiProcessClose = document.getElementById('aiProcessClose');
+if (aiProcessClose) {
+    aiProcessClose.addEventListener('click', () => {
+        const aiProcessInfo = document.getElementById('aiProcessInfo');
+        if (aiProcessInfo) {
+            aiProcessInfo.style.display = 'none';
+        }
+    });
+}
+
+// Close AI modal when clicking outside
+const aiProcessModal = document.getElementById('aiProcessInfo');
+if (aiProcessModal) {
+    aiProcessModal.addEventListener('click', (e) => {
+        if (e.target === aiProcessModal) {
+            aiProcessModal.style.display = 'none';
+        }
+    });
+}
 
 // Generate numbers
 generateBtn.addEventListener('click', async () => {

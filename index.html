@@ -111,44 +111,52 @@
                 </div>
             </section>
 
-            <!-- AI Process Explanation (Visible when AI Premium is selected) -->
-            <section class="ai-process-info" id="aiProcessInfo" style="display: none;">
-                <h2 class="process-title" data-i18n="processTitle">🧠 Hvordan Vores AI Premium Fungerer</h2>
+            <!-- AI Process Explanation Modal (Overlay when AI Premium is selected) -->
+            <div class="modal ai-modal" id="aiProcessInfo" style="display: none;">
+                <div class="modal-content ai-modal-content">
+                    <div class="modal-header">
+                        <h2 class="process-title" data-i18n="processTitle">🧠 Hvordan Vores AI Premium Fungerer</h2>
+                        <button class="modal-close" id="aiProcessClose">×</button>
+                    </div>
 
-                <div class="process-steps">
-                    <div class="process-step">
-                        <h3 data-i18n="processStep1Title">1️⃣ Web Scraping af Rigtige Data</h3>
-                        <p data-i18n="processStep1Desc">Vi downloader de seneste 100 trækninger fra LotteryGuru.com -
-                            INGEN simulerede data.</p>
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <h3 data-i18n="processStep1Title">1️⃣ Web Scraping af Rigtige Data</h3>
+                            <p data-i18n="processStep1Desc">Vi downloader de seneste 100 trækninger fra LotteryGuru.com
+                                -
+                                INGEN simulerede data.</p>
+                        </div>
+                        <div class="process-step">
+                            <h3 data-i18n="processStep2Title">2️⃣ Avanceret Statistisk Analyse</h3>
+                            <p data-i18n="processStep2Desc">Frekvensanalyse, Chi²-test, Parkorrelationer, Gap-analyse,
+                                Entropimåling og mere.</p>
+                        </div>
+                        <div class="process-step">
+                            <h3 data-i18n="processStep3Title">3️⃣ DeepSeek AI Ræsonnement</h3>
+                            <p data-i18n="processStep3Desc">AI modtager alle statistikker og bruger "Regression til
+                                Mean"
+                                teori til at generere intelligente kombinationer.</p>
+                        </div>
+                        <div class="process-step">
+                            <h3 data-i18n="processStep4Title">4️⃣ Smart Filtrering</h3>
+                            <p data-i18n="processStep4Desc">Undgår varme par, prioriterer kolde kombinationer,
+                                balancerer
+                                lige/ulige og ranges.</p>
+                        </div>
                     </div>
-                    <div class="process-step">
-                        <h3 data-i18n="processStep2Title">2️⃣ Avanceret Statistisk Analyse</h3>
-                        <p data-i18n="processStep2Desc">Frekvensanalyse, Chi²-test, Parkorrelationer, Gap-analyse,
-                            Entropimåling og mere.</p>
-                    </div>
-                    <div class="process-step">
-                        <h3 data-i18n="processStep3Title">3️⃣ DeepSeek AI Ræsonnement</h3>
-                        <p data-i18n="processStep3Desc">AI modtager alle statistikker og bruger "Regression til Mean"
-                            teori til at generere intelligente kombinationer.</p>
-                    </div>
-                    <div class="process-step">
-                        <h3 data-i18n="processStep4Title">4️⃣ Smart Filtrering</h3>
-                        <p data-i18n="processStep4Desc">Undgår varme par, prioriterer kolde kombinationer, balancerer
-                            lige/ulige og ranges.</p>
+
+                    <div class="process-techniques">
+                        <h3 class="techniques-title" data-i18n="processTechniquesTitle">📐 Anvendte Teknikker</h3>
+                        <ul class="techniques-list">
+                            <li data-i18n="processTechnique1">Chi-kvadrat uafhængighedstest</li>
+                            <li data-i18n="processTechnique2">Betinget sandsynlighedsanalyse</li>
+                            <li data-i18n="processTechnique3">Entropi & standardafvigelsesberegning</li>
+                            <li data-i18n="processTechnique4">Regression til middelværdi (Mean Reversion)</li>
+                            <li data-i18n="processTechnique5">Kolde/Varme nummerfiltrering</li>
+                        </ul>
                     </div>
                 </div>
-
-                <div class="process-techniques">
-                    <h3 class="techniques-title" data-i18n="processTechniquesTitle">📐 Anvendte Teknikker</h3>
-                    <ul class="techniques-list">
-                        <li data-i18n="processTechnique1">Chi-kvadrat uafhængighedstest</li>
-                        <li data-i18n="processTechnique2">Betinget sandsynlighedsanalyse</li>
-                        <li data-i18n="processTechnique3">Entropi & standardafvigelsesberegning</li>
-                        <li data-i18n="processTechnique4">Regression til middelværdi (Mean Reversion)</li>
-                        <li data-i18n="processTechnique5">Kolde/Varme nummerfiltrering</li>
-                    </ul>
-                </div>
-            </section>
+            </div>
 
             <!-- Generate Button -->
             <section class="generate-section">
