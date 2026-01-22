@@ -801,7 +801,7 @@ strategyButtons.forEach(btn => {
                 // Fix generate button at bottom of screen above modal
                 if (generateSection) {
                     generateSection.style.position = 'fixed';
-                    generateSection.style.bottom = '80px';
+                    generateSection.style.bottom = '30px';
                     generateSection.style.left = '50%';
                     generateSection.style.transform = 'translateX(-50%)';
                     generateSection.style.zIndex = '10000';
