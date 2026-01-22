@@ -594,10 +594,16 @@ async function generateAIPremiumNumbers() {
             // Show Modal with Error
             licenseModal.style.display = 'flex';
 
-            let displayError = errData.error || 'Licensfejl';
+            let displayError = errData.error || 'Licensfejl (Ukendt årsag)';
+
             if (errData.code === 'INVALID_KEY') displayError = '❌ Ugyldig licensnøgle. Prøv igen.';
             if (errData.code === 'NO_CREDITS') displayError = '⚠️ Ingen klip tilbage på denne licens.';
             if (errData.code === 'INACTIVE_KEY') displayError = '⛔ Denne licens er deaktiveret.';
+
+            // If it's still the generic error, append the technical detail for debugging
+            if (displayError.startsWith('Licensfejl')) {
+                displayError += `: ${errData.error} (Code: ${errData.code})`;
+            }
 
             if (keyError) keyError.textContent = displayError;
 
