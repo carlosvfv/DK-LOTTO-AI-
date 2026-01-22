@@ -793,11 +793,23 @@ strategyButtons.forEach(btn => {
 
         // Show/Hide AI Process Info Modal
         const aiProcessInfo = document.getElementById('aiProcessInfo');
+        const generateSection = document.querySelector('.generate-section');
+
         if (aiProcessInfo) {
             if (currentStrategy === 'ai') {
                 aiProcessInfo.style.display = 'flex';
+                // Elevate generate button to be clickable above modal overlay
+                if (generateSection) {
+                    generateSection.style.position = 'relative';
+                    generateSection.style.zIndex = '10000';
+                }
             } else {
                 aiProcessInfo.style.display = 'none';
+                // Reset generate button z-index
+                if (generateSection) {
+                    generateSection.style.position = '';
+                    generateSection.style.zIndex = '';
+                }
             }
         }
     });
@@ -808,8 +820,15 @@ const aiProcessClose = document.getElementById('aiProcessClose');
 if (aiProcessClose) {
     aiProcessClose.addEventListener('click', () => {
         const aiProcessInfo = document.getElementById('aiProcessInfo');
+        const generateSection = document.querySelector('.generate-section');
+
         if (aiProcessInfo) {
             aiProcessInfo.style.display = 'none';
+        }
+        // Reset generate button z-index
+        if (generateSection) {
+            generateSection.style.position = '';
+            generateSection.style.zIndex = '';
         }
     });
 }
@@ -819,7 +838,14 @@ const aiProcessModal = document.getElementById('aiProcessInfo');
 if (aiProcessModal) {
     aiProcessModal.addEventListener('click', (e) => {
         if (e.target === aiProcessModal) {
+            const generateSection = document.querySelector('.generate-section');
+
             aiProcessModal.style.display = 'none';
+            // Reset generate button z-index
+            if (generateSection) {
+                generateSection.style.position = '';
+                generateSection.style.zIndex = '';
+            }
         }
     });
 }
