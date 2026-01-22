@@ -23,8 +23,7 @@
     padding: 0;
     max-width: 800px;
     width: 90%;
-    max-height: 60vh;
-    overflow-y: auto;
+    overflow-y: visible;
     box-shadow: 0 20px 60px rgba(138, 43, 226, 0.4);
     animation: slideIn 0.3s ease;
     /* Hide scrollbar */
