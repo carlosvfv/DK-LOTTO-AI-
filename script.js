@@ -493,6 +493,7 @@ async function generateAIPremiumNumbers() {
         if (!trialUsed) {
             // Activate Free Trial Mode
             licenseKey = 'FREE-TRIAL-GIFT';
+            localStorage.removeItem('lottery-license-key'); // Ensure no bad key is sent
 
             // Notify user
             // We can show a toast or just let them be surprised
