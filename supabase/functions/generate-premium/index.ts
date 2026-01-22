@@ -23,28 +23,6 @@ serve(async (req) => {
         )
 
         // --- LICENSE VALIDATION ---
-        // --- DIAGNOSTIC BYPASS ---
-        if (licenseKey === 'FREE-TRIAL-GIFT') {
-            const dummyStats = {}; // Mock stats
-            return new Response(
-                JSON.stringify({
-                    success: true,
-                    numbers: [10, 20, 30, 40, 50, 55, 60],
-                    stars: [1, 2],
-                    confidence: 99,
-                    remainingCredits: 999,
-                    ai: {
-                        reasoning: "✅ DIAGNOSTIC MODE: Connection successful! The issue is likely in the DeepSeek API call or DB write. This proves the Frontend <-> Cloud link is working.",
-                        confidence: 99,
-                        hotNumbersUsed: [10, 20],
-                        coldNumbersUsed: [60]
-                    },
-                    stats: dummyStats
-                }),
-                { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-            )
-        }
-        // -------------------------
 
         let isTrial = false
         let license = null
