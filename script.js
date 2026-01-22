@@ -798,17 +798,25 @@ strategyButtons.forEach(btn => {
         if (aiProcessInfo) {
             if (currentStrategy === 'ai') {
                 aiProcessInfo.style.display = 'flex';
-                // Elevate generate button to be clickable above modal overlay
+                // Fix generate button at bottom of screen above modal
                 if (generateSection) {
-                    generateSection.style.position = 'relative';
+                    generateSection.style.position = 'fixed';
+                    generateSection.style.bottom = '20px';
+                    generateSection.style.left = '50%';
+                    generateSection.style.transform = 'translateX(-50%)';
                     generateSection.style.zIndex = '10000';
+                    generateSection.style.width = 'auto';
                 }
             } else {
                 aiProcessInfo.style.display = 'none';
-                // Reset generate button z-index
+                // Reset generate button positioning
                 if (generateSection) {
                     generateSection.style.position = '';
+                    generateSection.style.bottom = '';
+                    generateSection.style.left = '';
+                    generateSection.style.transform = '';
                     generateSection.style.zIndex = '';
+                    generateSection.style.width = '';
                 }
             }
         }
@@ -825,10 +833,14 @@ if (aiProcessClose) {
         if (aiProcessInfo) {
             aiProcessInfo.style.display = 'none';
         }
-        // Reset generate button z-index
+        // Reset generate button positioning
         if (generateSection) {
             generateSection.style.position = '';
+            generateSection.style.bottom = '';
+            generateSection.style.left = '';
+            generateSection.style.transform = '';
             generateSection.style.zIndex = '';
+            generateSection.style.width = '';
         }
     });
 }
@@ -841,10 +853,14 @@ if (aiProcessModal) {
             const generateSection = document.querySelector('.generate-section');
 
             aiProcessModal.style.display = 'none';
-            // Reset generate button z-index
+            // Reset generate button positioning
             if (generateSection) {
                 generateSection.style.position = '';
+                generateSection.style.bottom = '';
+                generateSection.style.left = '';
+                generateSection.style.transform = '';
                 generateSection.style.zIndex = '';
+                generateSection.style.width = '';
             }
         }
     });
